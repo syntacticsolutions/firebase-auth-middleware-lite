@@ -1,4 +1,3 @@
-
 # Firebase Auth Middleware Lite
 
 A minimal and framework-agnostic Firebase ID token verification middleware for Node.js. Works with Express, but does not depend on it.
@@ -64,12 +63,14 @@ You can pass a callback to the middleware if you want to run custom logic when a
 app.use(
   authMiddleware(async ({ claims, ctx, token, res }) => {
     console.log("Authenticated user:", claims.uid);
-    
-    // get user information like permissions or roles for authorization
-    
-    ctx.user = getUserFromDB();
 
-    if (!user) res.status(403).json({ error: "Forbidden" })
+    // get user information like permissions or roles for authorization
+    ctx.user = await getUserFromDB();
+
+    // return something to stop the flow
+    if (!user) return res.status(403).json({ error: "Forbidden" });
+    
+    // if nothing is returned, middleware will add claims and token to res.locals and continue;
   })
 );
 ```
@@ -89,14 +90,15 @@ If a token is expired, the middleware will. You will have to refresh the token u
 
 ```ts
 type AuthContext = {
-  claims: DecodedIdToken;
+  claims: DecodedIdToken; // from firebase-admin
   token: string;
 };
 
 type AuthCBParams = {
-  claims: DecodedIdToken;
+  claims: DecodedIdToken; // from firebase-admin
   ctx: Record<string, any>;
   token: string;
+  res: Response;
 };
 ```
 

@@ -1,6 +1,6 @@
 {
     "name": "firebase-auth-middleware-lite",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Minimal Firebase ID token verification middleware for Node and Express",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
         "token",
         "verify"
     ],
-    "author": "Your Name",
+    "author": "Miguel Coder",
     "license": "MIT",
     "dependencies": {
         "@google-cloud/firestore": "^7.11.2",

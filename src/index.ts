@@ -17,8 +17,13 @@ export interface AuthCBParams<T extends Response> {
   res: T;
 };
 
+type StopObject = {
+    status: number;
+    message: string;
+}
+
 export const authMiddleware =
-  (cb: (params: AuthCBParams<any>) => void | Promise<void> = () => {}) =>
+  (cb: (params: AuthCBParams<any>) => void | Promise<StopObject> = () => {}) =>
   async (req: any, res: any, next: () => void) => {
     const authHeader = req.headers["authorization"] || "";
     const token = authHeader.split(" ")[1];
@@ -38,7 +43,11 @@ export const authMiddleware =
         return;
       }
 
-      await cb({ claims, ctx: res.locals ?? {}, token, res });
+      const shouldReturn = await cb({ claims, ctx: res.locals ?? {}, token, res });
+
+      if (shouldReturn) {
+        return;
+      }
 
       res.locals = res.locals || {};
       res.locals.claims = claims;
