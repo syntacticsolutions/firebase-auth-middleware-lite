@@ -10,17 +10,17 @@ export const initFirebase = (key: ServiceAccount) => {
   }
 };
 
-export interface AuthCBParams<T extends Response> {
+export interface AuthCBParams<T extends Record<string, any>> {
   claims: DecodedIdToken;
   ctx: Record<string, any>;
   token: string;
   res: T;
-};
+}
 
 type StopObject = {
-    status: number;
-    message: string;
-}
+  status: number;
+  message: string;
+};
 
 export const authMiddleware =
   (cb: (params: AuthCBParams<any>) => void | Promise<StopObject> = () => {}) =>
@@ -43,7 +43,12 @@ export const authMiddleware =
         return;
       }
 
-      const shouldReturn = await cb({ claims, ctx: res.locals ?? {}, token, res });
+      const shouldReturn = await cb({
+        claims,
+        ctx: res.locals ?? {},
+        token,
+        res,
+      });
 
       if (shouldReturn) {
         return;
@@ -60,7 +65,9 @@ export const authMiddleware =
           "Content-Type": "application/json",
           "x-firebase-token-refresh": "true",
         });
-        res.end(JSON.stringify({ error: "Token expired. Please refresh your token." }));
+        res.end(
+          JSON.stringify({ error: "Token expired. Please refresh your token." })
+        );
         return;
       }
 

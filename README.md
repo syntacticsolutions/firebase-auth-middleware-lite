@@ -64,7 +64,10 @@ const withDatabaseUser = async ({ claims, ctx, token, res }) => {
   console.log("Authenticated user id:", claims.uid);
 
   // get user information like permissions or roles for authorization
-  ctx.user = await getUserFromDB(claims.uid);
+  const user = await getUserFromDB(claims.uid);
+
+  ctx.user = user // attach user to locals
+
 
   // return something to stop the flow
   if (!user) return res.status(403).json({ error: "Forbidden" });
@@ -91,7 +94,7 @@ You will have to refresh the token using the frontend firebase SDK:
 ## 📚 Types
 
 ```ts
-type AuthContext = {
+type AuthContext = { // not exported
   claims: DecodedIdToken; // from firebase-admin
   token: string;
 };

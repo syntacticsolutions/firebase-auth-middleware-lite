@@ -1,27 +1,32 @@
 {
-    "name": "firebase-auth-middleware-lite",
-    "version": "1.0.6",
-    "description": "Minimal Firebase ID token verification middleware for Node and Express",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc"
-    },
-    "keywords": [
-        "firebase",
-        "auth",
-        "middleware",
-        "express",
-        "token",
-        "verify"
-    ],
-    "author": "Miguel Coder",
-    "license": "MIT",
-    "dependencies": {
-        "@google-cloud/firestore": "^7.11.2",
-        "firebase-admin": "^11.10.1"
-    },
-    "devDependencies": {
-        "typescript": "^5.2.2"
-    }
+  "name": "firebase-auth-middleware-lite",
+  "version": "1.0.11",
+  "description": "Minimal Firebase ID token verification middleware for Node and Express",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "firebase",
+    "auth",
+    "middleware",
+    "express",
+    "token",
+    "verify"
+  ],
+  "author": "Miguel Coder",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/firestore": "^7.11.2",
+    "firebase-admin": "^11.10.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
