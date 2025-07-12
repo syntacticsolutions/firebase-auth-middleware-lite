@@ -60,20 +60,20 @@ app.get("/protected", (req, res) => {
 You can pass a callback to the middleware if you want to run custom logic when a user is verified:
 
 ```ts
-app.use(
-  authMiddleware(async ({ claims, ctx, token, res }) => {
-    console.log("Authenticated user:", claims.uid);
+const withDatabaseUser = async ({ claims, ctx, token, res }) => {
+  console.log("Authenticated user id:", claims.uid);
 
-    // get user information like permissions or roles for authorization
-    ctx.user = await getUserFromDB();
+  // get user information like permissions or roles for authorization
+  ctx.user = await getUserFromDB(claims.uid);
 
-    // return something to stop the flow
-    if (!user) return res.status(403).json({ error: "Forbidden" });
+  // return something to stop the flow
+  if (!user) return res.status(403).json({ error: "Forbidden" });
 
-    // if nothing is returned, middleware will add claims and token
-    // to res.locals and continue;
-  })
-);
+  // if nothing is returned, middleware will add claims and token
+  // to res.locals and continue;
+};
+
+app.use(authMiddleware(withDatabaseUser));
 ```
 
 ---
