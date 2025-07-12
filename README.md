@@ -69,8 +69,9 @@ app.use(
 
     // return something to stop the flow
     if (!user) return res.status(403).json({ error: "Forbidden" });
-    
-    // if nothing is returned, middleware will add claims and token to res.locals and continue;
+
+    // if nothing is returned, middleware will add claims and token
+    // to res.locals and continue;
   })
 );
 ```
@@ -79,7 +80,8 @@ app.use(
 
 ## 🔄 Token Expiration Handling
 
-If a token is expired, the middleware will. You will have to refresh the token using the frontend SDK:
+If a token is expired, the middleware will return an error.
+You will have to refresh the token using the frontend firebase SDK:
 
 - Set the HTTP header `x-firebase-token-refresh: true`
 - Return a `401 Unauthorized` response
